@@ -46,3 +46,9 @@ Untitled design.png
 my-business-website/
 sastech-app.html
 SSL.html
+
+# Raw screenshot captures (converted copies live in public/work)
+.shots/
+
+# Private business docs (knowledge base, brief). Repo is public: never commit these.
+docs/

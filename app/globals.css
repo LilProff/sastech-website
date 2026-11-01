@@ -1,0 +1,413 @@
+@import "tailwindcss";
+
+/* dark: follows the site theme toggle, not the OS setting. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+  Sastech design system
+  Colours sampled from the logo (docs/Sastech_Website_Rebuild_Brief.md section 1).
+  Themes: dark (brand default) and light. Every colour is a variable; light mode
+  redefines the variables below, so components never need theme-specific classes.
+  "navy-*" are surface tokens (they become near-white in light mode).
+  "brand" is the fixed logo cyan for button fills; "cyan" is the accent for text,
+  which darkens in light mode to keep contrast. Cyan is the only strong accent.
+  Shape rule: interactive controls are full pills, cards are 20px, inputs are 12px.
+  Contrast dark (on navy-900): ink 17:1, ink-2 8.5:1, muted 6.1:1, cyan 10.2:1.
+  Contrast light (on #f7fafc): ink 17:1, ink-2 7.6:1, muted 5.5:1, cyan 5.0:1.
+  "faint" is for borders, large text and decoration only.
+*/
+
+@theme {
+  --color-navy-950: #010e1a;
+  --color-navy-900: #021626;
+  --color-navy-850: #061c2e;
+  --color-navy-800: #0a2236;
+  --color-line: #123049;
+  --color-line-strong: #1b4060;
+  --color-cyan: #03d4ee;
+  --color-cyan-deep: #01b7cc;
+  --color-ink: #f4f9fc;
+  --color-ink-2: #9fb3c8;
+  --color-muted: #7f98af;
+  --color-faint: #5e7a93;
+  --color-success: #22c55e;
+  --color-brand: #03d4ee;
+  --color-brand-deep: #01b7cc;
+  --color-on-brand: #010e1a;
+
+  --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 20px;
+  --radius-input: 12px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem);
+  --text-display--line-height: 1.04;
+  --text-title: clamp(1.9rem, 1.4rem + 2vw, 3rem);
+  --text-title--line-height: 1.1;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-navy-950: #edf2f7;
+  --color-navy-900: #f7fafc;
+  --color-navy-850: #ffffff;
+  --color-navy-800: #e8eff5;
+  --color-line: #d7e2eb;
+  --color-line-strong: #b9cad8;
+  --color-cyan: #06768f;
+  --color-cyan-deep: #055e72;
+  --color-ink: #071a2b;
+  --color-ink-2: #3b5368;
+  --color-muted: #52697f;
+  --color-faint: #8aa0b4;
+  --color-success: #15803d;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-navy-900);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-cyan) 35%, transparent);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  /* Primary CTA: cyan gradient, navy text (10:1). */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    white-space: nowrap;
+    border-radius: 999px;
+    padding: 0.85rem 1.4rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1;
+    transition:
+      transform 0.25s var(--ease-out-expo),
+      background-color 0.25s var(--ease-out-expo),
+      border-color 0.25s var(--ease-out-expo),
+      box-shadow 0.25s var(--ease-out-expo);
+  }
+  .btn:active {
+    transform: translateY(1px) scale(0.98);
+  }
+  .btn-primary {
+    color: var(--color-on-brand);
+    background: linear-gradient(180deg, var(--color-brand), var(--color-brand-deep));
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.35),
+      0 10px 30px -12px rgb(3 212 238 / 0.55);
+  }
+  .btn-primary:hover {
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.45),
+      0 14px 36px -12px rgb(3 212 238 / 0.75);
+  }
+  .btn-ghost {
+    color: var(--color-ink);
+    border: 1px solid var(--color-line-strong);
+    background: color-mix(in oklab, var(--color-navy-800) 55%, transparent);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-cyan);
+    background: color-mix(in oklab, var(--color-navy-800) 90%, transparent);
+  }
+  .btn .btn-arrow {
+    transition: transform 0.3s var(--ease-out-expo);
+  }
+  .btn:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  .card {
+    position: relative;
+    border-radius: var(--radius-card);
+    background: linear-gradient(180deg, color-mix(in oklab, var(--color-navy-800) 85%, transparent), color-mix(in oklab, var(--color-navy-850) 85%, transparent));
+    border: 1px solid var(--color-line);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s var(--ease-out-expo);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-cyan);
+  }
+
+  /* Visible placeholder for facts Samuel still has to supply. */
+  .fill {
+    color: #fbbf24;
+    background: rgb(251 191 36 / 0.08);
+    border: 1px dashed rgb(251 191 36 / 0.45);
+    border-radius: 6px;
+    padding: 0 0.35em;
+    font-size: 0.92em;
+  }
+
+  /* Long-form text for legal pages. */
+  .prose-legal h2 {
+    font-size: 1.35rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose-legal h3 {
+    font-size: 1.05rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-legal p,
+  .prose-legal li {
+    color: var(--color-ink-2);
+  }
+  .prose-legal p + p {
+    margin-top: 0.9rem;
+  }
+  .prose-legal ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin-top: 0.6rem;
+    display: grid;
+    gap: 0.4rem;
+  }
+  .prose-legal a {
+    color: var(--color-cyan);
+  }
+}
+
+@layer utilities {
+  /* Hexagon line field, used behind hero and CTA bands. */
+  .bg-hex {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0 56 16.2v32.3L28 64.7 0 48.5V16.2zM28 64.7V97' fill='none' stroke='%23123049' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 56px 97px;
+  }
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, #000 40%, transparent);
+  }
+  .mask-radial {
+    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
+  }
+  .text-gradient {
+    background: linear-gradient(180deg, var(--color-cyan), var(--color-cyan-deep));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hex-clip {
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  }
+}
+
+/* Scroll reveals. Elements only get hidden by JS when they start below the fold,
+   so content is never invisible without JS and nothing shifts layout. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal="pending"] {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  [data-reveal="shown"] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.9s var(--ease-out-expo) var(--d, 0ms),
+      transform 0.9s var(--ease-out-expo) var(--d, 0ms);
+  }
+}
+
+/* Hero entrance (CSS only, runs once on first paint). */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+@keyframes float-y {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes breathe {
+  50% {
+    opacity: 0.55;
+    transform: scale(1.02);
+  }
+}
+/* Transform-only entrance for the LCP text, so it counts as painted immediately. */
+@keyframes lift {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim-rise {
+    animation: rise 1s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .anim-lift {
+    animation: lift 1s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .anim-fade {
+    animation: fade 1.2s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .anim-float {
+    animation: float-y 5s ease-in-out infinite;
+  }
+  .caret {
+    animation: blink 1s steps(1) infinite;
+  }
+  .draw-line {
+    stroke-dasharray: var(--len, 600);
+    stroke-dashoffset: var(--len, 600);
+  }
+  [data-reveal="shown"] .draw-line,
+  .draw-line.is-drawn {
+    animation: dash 1.6s var(--ease-out-expo) forwards;
+    animation-delay: var(--d, 0ms);
+  }
+  .ping::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid var(--color-cyan);
+    animation: pulse-ring 2.4s var(--ease-out-expo) infinite;
+  }
+}
+
+/* ---------- Light theme adjustments that variables alone can't express ---------- */
+:root[data-theme="light"] .card {
+  background: var(--color-navy-850);
+  box-shadow:
+    0 1px 2px rgb(7 26 43 / 0.04),
+    0 12px 32px -18px rgb(7 26 43 / 0.18);
+}
+:root[data-theme="light"] .bg-hex {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0 56 16.2v32.3L28 64.7 0 48.5V16.2zM28 64.7V97' fill='none' stroke='%23d3dfe9' stroke-width='1'/%3E%3C/svg%3E");
+}
+:root[data-theme="light"] .fill {
+  color: #92400e;
+  background: rgb(251 191 36 / 0.16);
+  border-color: rgb(180 83 9 / 0.45);
+}
+:root[data-theme="light"] .btn-primary {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.45),
+    0 10px 24px -12px rgb(1 183 204 / 0.6);
+}
+
+/* Smooth colour change when the theme is toggled (not on first paint). */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease !important;
+}
+
+/* Theme toggle shows the icon of the theme you would switch to. */
+.theme-icon-moon {
+  display: none;
+}
+:root[data-theme="light"] .theme-icon-moon {
+  display: block;
+}
+:root[data-theme="light"] .theme-icon-sun {
+  display: none;
+}
