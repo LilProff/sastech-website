@@ -1,0 +1,17 @@
+---
+description: Sastech Consults website: project guide, rules and playbooks
+alwaysApply: true
+---
+
+Read `AGENTS.md` at the repo root before any change. It explains the goal, the codebase layers, the design
+system, SEO rules and the deploy workflow. For a specific task, open the matching playbook in
+`.agents/skills/<name>/SKILL.md` and follow it. If `docs/HANDOFF_PRIVATE.md` exists locally, read it too.
+
+Hard rules (details in AGENTS.md section 2):
+- Never invent clients, numbers, testimonials, prices or registrations; ask the owner.
+- Confidential client systems: anonymous client name, redacted previews, no real figures or names.
+- Never offer digital marketing / content / social media management services (paused).
+- No secrets or `docs/` in git; the repo is public and must stay public for Vercel.
+- Content is data in `lib/` (site.ts, content.ts, projects.ts, insights.ts); edit data, not pages.
+- Use design tokens from `app/globals.css`; both dark and light themes must pass WCAG AA.
+- Zero em dashes in visible copy. `npm run build` must pass before pushing.
