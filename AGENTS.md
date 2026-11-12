@@ -177,8 +177,10 @@ npm run start        # serve the production build locally
 
 ## 10. Current status (keep this section up to date)
 
-- Live since 1 Nov 2026 (commit 2669861). 39 static pages, 13 portfolio projects, 4 articles,
-  Events page in empty state.
+- Live since 1 Nov 2026. Last checked 12 Nov 2026: healthy, Vercel green, `main` at the handoff commit
+  (site code unchanged since 2669861). 39 static pages, 13 portfolio projects, 4 articles, Events page in
+  empty state.
+- Handed over to a new Claude account on 12 Nov 2026: start with `docs/HANDOFF_PRIVATE.md` (local only).
 - Contact form needs `RESEND_API_KEY` set in Vercel (Settings > Environment Variables) and a redeploy.
   The Resend domain sastech.com.ng is verified. Until then the form replies "not connected yet".
 - Waiting on the owner (details in `docs/HANDOFF_PRIVATE.md`): WhatsApp number confirmation, CAC number,

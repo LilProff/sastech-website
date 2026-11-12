@@ -1,4 +1,5 @@
 @AGENTS.md
+@docs/HANDOFF_PRIVATE.md
 
 ## Claude Code notes
 
